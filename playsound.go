@@ -32,28 +32,48 @@ func Play(id uint64) error {
 func Getpos(id uint64) (uint64, error) {
 	var pos C.size_t = 0
 	if C.pa_getpos(C.size_t(id), &pos) < 0 {
-		return 0, fmt.Errorf("failed to get sound position")
+		return 0, fmt.Errorf("sound not inited")
 	}
 	return uint64(pos), nil
 }
 
 func Setpos(id uint64, pos uint64) error {
 	if C.pa_setpos(C.size_t(id), C.size_t(pos)) < 0 {
-		return fmt.Errorf("failed to set sound position")
+		return fmt.Errorf("sound not inited")
 	}
 	return nil
 }
 
+func Setloop(id uint64, loop bool) error {
+	var ci int = 0
+	if loop {
+		ci = 1
+	}
+
+	if C.pa_setloop(C.size_t(id), C.int(ci)) < 0 {
+		return fmt.Errorf("sound not inited")
+	}
+	return nil
+}
+
+func Isplaying(id uint64) (bool, error) {
+	var ret int = int(C.pa_isplaying(C.size_t(id)))
+	if ret < 0 {
+		return false, fmt.Errorf("sound not inited")
+	}
+	return ret == 1, nil
+}
+
 func Stop(id uint64) error {
 	if C.pa_stop(C.size_t(id)) < 0 {
-		return fmt.Errorf("failed to stop sound")
+		return fmt.Errorf("sound not inited")
 	}
 	return nil
 }
 
 func Unload(id uint64) error {
 	if C.pa_unload(C.size_t(id)) < 0 {
-		return fmt.Errorf("failed to unload sound")
+		return fmt.Errorf("sound not inited")
 	}
 	return nil
 }

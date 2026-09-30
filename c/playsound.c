@@ -80,6 +80,17 @@ int pa_setpos(size_t id, size_t pos) {
     return 0;
 }
 
+int pa_setloop(size_t id, int loop) {
+    if (!ctx.inited) return -1;
+    ma_sound_set_looping(&ctx.snds[id], loop);
+    return 0;
+}
+
+int pa_isplaying(size_t id) {
+    if (!ctx.inited) return -1;
+    return ma_sound_is_playing(&ctx.snds[id]);
+}
+
 int pa_stop(size_t id) {
     if (!ctx.inited) return -1;
     ma_sound_stop(&ctx.snds[id]);
