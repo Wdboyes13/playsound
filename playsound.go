@@ -1,6 +1,6 @@
 package playsound
 
-// #include "c/playsound.h"
+// #include "playsound.h"
 import "C"
 import "fmt"
 
