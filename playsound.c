@@ -9,7 +9,7 @@ struct pa_ctx {
     int inited;
 };
 
-static __thread struct pa_ctx ctx = {NULL, NULL, 0, 0, 0};
+static struct pa_ctx ctx = {NULL, NULL, 0, 0, 0};
 
 // initializes play_audio stuff
 // pass 0 to nsnds for allocating the array for sounds on load
