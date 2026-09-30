@@ -1,5 +1,6 @@
 package playsound
 
+// #cgo LDFLAGS: -lm
 // #include "playsound.h"
 import "C"
 import "fmt"
