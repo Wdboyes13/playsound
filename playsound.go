@@ -30,6 +30,7 @@ func Play(id uint64) error {
 	return nil
 }
 
+// in pcm frames
 func Getpos(id uint64) (uint64, error) {
 	var pos C.size_t = 0
 	if C.pa_getpos(C.size_t(id), &pos) < 0 {
@@ -38,11 +39,43 @@ func Getpos(id uint64) (uint64, error) {
 	return uint64(pos), nil
 }
 
+// in pcm frames
 func Setpos(id uint64, pos uint64) error {
 	if C.pa_setpos(C.size_t(id), C.size_t(pos)) < 0 {
 		return fmt.Errorf("sound not inited")
 	}
 	return nil
+}
+
+// from 0.0=0% to 1.0=100%
+func Getvol(id uint64) (float32, error) {
+	var vol C.float = 0
+	if C.pa_getvol(C.size_t(id), &vol) < 0 {
+		return 0, fmt.Errorf("sound not inited")
+	}
+	return float32(vol), nil
+}
+
+// from 0.0=0% to 1.0=100%
+func Setvol(id uint64, vol float32) error {
+	if C.pa_setvol(C.size_t(id), C.float(vol)) < 0 {
+		return fmt.Errorf("sound not inited")
+	}
+	return nil
+}
+
+func Getloop(id uint64) (bool, error) {
+	var lo C.int = 0
+	if C.pa_getloop(C.size_t(id), &lo) < 0 {
+		return false, fmt.Errorf("sound not inited")
+	}
+
+	var glo bool = false
+	if lo == 1 {
+		glo = true
+	}
+
+	return glo, nil
 }
 
 func Setloop(id uint64, loop bool) error {

@@ -91,6 +91,25 @@ int pa_setpos(size_t id, size_t pos) {
     return 0;
 }
 
+int pa_getvol(size_t id, float* vol) {
+    if (!ctx.inited) return -1;
+    *vol = ma_sound_get_volume(MSND(id));
+    return 0;
+}
+
+// from 0.0=0% to 1.0=100%
+int pa_setvol(size_t id, float vol) {
+    if (!ctx.inited) return -1;
+    ma_sound_set_volume(MSND(id), vol);
+    return 0;
+}
+
+int pa_getloop(size_t id, int* loop) {
+    if (!ctx.inited) return -1;
+    *loop = ma_sound_is_looping(MSND(id));
+    return 0;
+}
+
 int pa_setloop(size_t id, int loop) {
     if (!ctx.inited) return -1;
     ma_sound_set_looping(MSND(id), loop);
